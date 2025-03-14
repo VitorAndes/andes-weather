@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+	--color-primary: oklch(97.13% 0.0196 220.86);
+	--color-secondary: oklch(88.21% 0.057371 262.3054);
+	--color-tertiary: oklch(38.59% 0.0423 291.62);
+
+	--color-background: oklch(79.92% 0.0803 262.61);
+	--color-background-secondary: oklch(65.82% 0.181 289.61);
+
+	--font-title: "Playfair Display", serif;
+	--font-secondary: "Noto Sans", sans-serif;
+}
