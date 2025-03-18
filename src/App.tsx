@@ -1,5 +1,6 @@
-import { Search } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { InputForm } from "./components/communs/input";
 import { WeatherStatistics } from "./components/weatherStatistics";
 
 type Geocoding = {
@@ -123,30 +124,31 @@ export function App() {
 								{currentWeather?.weather[0].description}
 							</p>
 						</div>
-						<div className="flex flex-col gap-3 items-end">
-							<div className="flex items-center gap-1">
-								<input
+						<div
+							className={`${city ? "flex flex-col gap-3 items-end" : "flex items-center justify-center w-full"}`}
+						>
+							{city ? (
+								<InputForm
+									fetchCityData={fetchCityData}
 									ref={inputCityRef}
-									placeholder="Nome da cidade"
-									className="rounded-md shadow-md shadow-tertiary/25 font-secondary bg-primary/80 backdrop-blur-sm py-2 px-3 outline-none font-medium  focus:border-b-3 focus:rounded-none focus:border-b-secondary focus:bg-tertiary/20 focus:text-secondary  duration-300 transition-all"
+									city
 								/>
-								<button
-									type="button"
-									onClick={() => fetchCityData()}
-									className="cursor-pointer "
-								>
-									<Search
-										className="text-secondary hover:text-tertiary transition-colors"
-										size={32}
-									/>
-								</button>
-							</div>
-							<h1 className="text-tertiary font-medium text-2xl">
+							) : (
+								<div className="flex flex-col gap-5 items-center">
+									<h1 className="font-title font-semibold text-5xl text-primary text-center w-[700px]">
+										Digite o nome de uma cidade para começar!
+									</h1>
+									<InputForm fetchCityData={fetchCityData} ref={inputCityRef} />
+								</div>
+							)}
+							<h1 className="flex items-center gap-2 text-tertiary font-medium text-2xl">
+								{city && <MapPin />}
 								{city?.name && city?.country && `${city?.name}, ${city?.state}`}
 							</h1>
 
 							<h1 className="text-primary font-title font-semibold text-6xl">
-								{currentWeather?.main.temp.toFixed(0)}°
+								{currentWeather?.main.temp.toFixed(0)}
+								{city && "°"}
 							</h1>
 							<p className="text-tertiary font-secondary font-medium  text-xl">
 								{currentWeather?.dt
@@ -163,22 +165,26 @@ export function App() {
 						</div>
 					</div>
 					<div className="flex  gap-5 items-center self-center rounded-2xl backdrop-blur-md  py-2 px-3">
-						<WeatherStatistics
-							statisticType="Max./Min.:"
-							statisticValue={`${currentWeather?.main.temp_min.toFixed(0)}°/${currentWeather?.main.temp_max.toFixed(0)}°`}
-						/>
-						<WeatherStatistics
-							statisticType="Vento:"
-							statisticValue={`${currentWeather?.wind.speed} m/s`}
-						/>
-						<WeatherStatistics
-							statisticType="Umidade:"
-							statisticValue={`${currentWeather?.main.humidity}%`}
-						/>
-						<WeatherStatistics
-							statisticType="Pressão atmosférica:"
-							statisticValue={`${currentWeather?.main.pressure} hPa`}
-						/>
+						{city && (
+							<>
+								<WeatherStatistics
+									statisticType="Min./Max.:"
+									statisticValue={`${currentWeather?.main.temp_min.toFixed(0)}°/${currentWeather?.main.temp_max.toFixed(0)}°`}
+								/>
+								<WeatherStatistics
+									statisticType="Vento:"
+									statisticValue={`${currentWeather?.wind.speed} m/s`}
+								/>
+								<WeatherStatistics
+									statisticType="Umidade:"
+									statisticValue={`${currentWeather?.main.humidity}%`}
+								/>
+								<WeatherStatistics
+									statisticType="Pressão atmosférica:"
+									statisticValue={`${currentWeather?.main.pressure} hPa`}
+								/>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
