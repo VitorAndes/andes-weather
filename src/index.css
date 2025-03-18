@@ -4,10 +4,11 @@
 @theme {
 	--color-primary: oklch(97.13% 0.0196 220.86);
 	--color-secondary: oklch(88.21% 0.057371 262.3054);
-	--color-tertiary: oklch(38.59% 0.0423 291.62);
+	--color-tertiary: oklch(30% 0.0423 291.62);
 
 	--color-background: oklch(79.92% 0.0803 262.61);
-	--color-background-secondary: oklch(65.82% 0.181 289.61);
+	/* --color-background-secondary: oklch(59.95% 0.1137 242.53); */
+	--color-background-secondary: oklch(78.21% 0.057371 262.3054);
 
 	--font-title: "Playfair Display", serif;
 	--font-secondary: "Noto Sans", sans-serif;
