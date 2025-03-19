@@ -1,33 +1,67 @@
-import { Search } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
+import { useForm } from "react-hook-form";
 
 type InputFormProps = {
-	ref: React.Ref<HTMLInputElement>;
-	fetchCityData: () => void;
+	fetchCityData: (cityName: CityFormData) => void;
 	city?: boolean;
+	isLoading: boolean;
 };
 
-export function InputForm({ fetchCityData, ref, city }: InputFormProps) {
-	return (
-		<div className="flex items-center gap-2">
-			<input
-				ref={ref}
-				// biome-ignore lint/a11y/noAutofocus: <explanation>
-				autoFocus
-				autoCapitalize="characters"
-				placeholder="Nome da cidade"
-				className={`${city ? "rounded-md shadow-md shadow-tertiary/25 font-secondary bg-primary/80 backdrop-blur-xs p-3 outline-none font-medium  focus:rounded-none  focus:bg-tertiary/5 focus:text-primary  duration-300 transition-all focus:shadow-primary/25 w-70" : "rounded-md shadow-md shadow-tertiary/25 font-secondary bg-primary/80 backdrop-blur-xs p-3 outline-none font-medium  focus:rounded-none  focus:bg-tertiary/5 focus:text-primary  duration-300 transition-all w-96 focus:shadow-primary/25"}`}
-			/>
+export type CityFormData = {
+	cityName: string;
+};
 
-			<button
-				type="button"
-				onClick={() => fetchCityData()}
-				className="cursor-pointer hover:scale-105 "
-			>
-				<Search
-					className="text-tertiary hover:text-secondary transition-all "
-					size={30}
+export function InputForm({ city, fetchCityData, isLoading }: InputFormProps) {
+	const {
+		register,
+		handleSubmit,
+
+		formState: { errors },
+	} = useForm<CityFormData>();
+
+	const inputClass =
+		"rounded-md shadow-md shadow-tertiary/25 font-secondary bg-primary/80 backdrop-blur-xs p-3 outline-none font-medium focus:rounded-none focus:bg-tertiary/5 focus:text-primary duration-300 transition-all focus:shadow-primary/25 ";
+
+	return (
+		<form
+			onSubmit={handleSubmit(fetchCityData)}
+			className="flex flex-col gap-2"
+		>
+			<label htmlFor="cityName" className="sr-only">
+				Cidade
+			</label>
+			<div className="flex gap-2">
+				<input
+					{...register("cityName", {
+						required: "O nome da cidade é obrigatório",
+						pattern: {
+							value: /^[A-Za-zÀ-ÿ\s]+$/i,
+							message: "A cidade deve conter apenas letras e espaços",
+						},
+					})}
+					placeholder="Ex: Manaus Amazonas"
+					className={`${inputClass} ${city ? "w-70" : "w-96"} ${errors.cityName && " bg-red-400/70 transition-all"}`}
 				/>
-			</button>
-		</div>
+				<button
+					disabled={isLoading}
+					type="submit"
+					className="cursor-pointer hover:scale-105 "
+				>
+					{isLoading ? (
+						<Loader2 className="animate-spin transition-all" size={30} />
+					) : (
+						<Search
+							className="text-tertiary hover:text-secondary transition-all "
+							size={30}
+						/>
+					)}
+				</button>
+			</div>
+			{errors.cityName && (
+				<span className="text-red-500 text-sm font-secondary font-semibold">
+					{errors.cityName.message}
+				</span>
+			)}
+		</form>
 	);
 }
