@@ -34,7 +34,7 @@ export function App() {
 									</p>
 								</div>
 								<div className={"flex flex-col gap-3 items-end"}>
-									<div className="hidden md:static">
+									<div className="hidden md:block">
 										<InputForm
 											fetchCityData={fetchCityData}
 											city
