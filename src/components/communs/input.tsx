@@ -40,7 +40,7 @@ export function InputForm({ city, fetchCityData, isLoading }: InputFormProps) {
 						},
 					})}
 					placeholder="Ex: Manaus Amazonas"
-					className={`${inputClass} ${city ? "w-70" : "w-96"} ${errors.cityName && " bg-red-400/70 transition-all"}`}
+					className={`${inputClass} ${city ? "w-full md:w-70" : "md:w-96"} ${errors.cityName && " bg-red-400/70 transition-all"}`}
 				/>
 				<button
 					disabled={isLoading}

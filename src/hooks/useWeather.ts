@@ -67,7 +67,6 @@ export function useWeather(): WeatherHookReturn {
 			setError("Por favor, digite uma cidade.");
 			return;
 		}
-
 		setIsLoading(true);
 		setError(null);
 
@@ -84,9 +83,9 @@ export function useWeather(): WeatherHookReturn {
 			const [data = null] = json;
 
 			if (!data) {
-				setCity(null);
 				setError("Cidade não encontrada.");
 			} else {
+				localStorage.setItem("cityName", JSON.stringify(data));
 				setCity(data);
 				console.log("Dados:", data);
 			}
